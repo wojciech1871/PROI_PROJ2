@@ -185,5 +185,10 @@ public:
     help();
     init();
   }
+  ~Interface()
+  {
+    delete kindergarten;
+    std::cout<<"Kindergarten destructed" <<std::endl;
+  }
 };
 #endif //Interface_hpp
