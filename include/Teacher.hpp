@@ -25,9 +25,12 @@ class Teacher
 public:
   Teacher(std::string,std::string,int);
 
-  friend class Kindergarten;
-  template <class objType, class iterType>
-  friend iterType findObject(std::list<objType> *collection, std::string name, std::string surname);
+  std::string getName();
+  std::string getSurname();
+  std::string getGroupName();
+
+  void setGroupName(std::string);
+
   friend std::ostream &operator <<(std::ostream &os, const Teacher &teacher);
 };
 

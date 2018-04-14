@@ -16,7 +16,7 @@ iterType findObject(std::list<objType> *collection, std::string name, std::strin
 {
   for(iterType iter=collection->begin(); iter!=collection->end(); iter++)
   {
-    if(iter->name==name && iter->surname==surname) return iter;
+    if(iter->getName()==name && iter->getSurname()==surname) return iter;
   }
   return static_cast<iterType>(0);
 }
@@ -28,7 +28,7 @@ iterType findObject(std::list<objType> *collection, std::string name)
 {
   for(iterType iter=collection->begin(); iter!=collection->end(); iter++)
   {
-    if(iter->name==name) return iter;
+    if(iter->getName()==name) return iter;
   }
   return static_cast<iterType>(0);
 }

@@ -24,11 +24,12 @@ class Group
 public:
   Group(std::string);
 
-  friend class Kindergarten;
-  template <class objType, class iterType>
-  friend iterType findObject(std::list<objType> *collection, std::string name);
-  template <class objType, class iterType>
-  friend iterType findObject(std::list<objType> *collection, objType object);
+  std::string getName();
+  std::list<std::list<Child>::iterator>* getChildrenPointerList();
+  std::list<Teacher>::iterator getTeacherPointer();
+
+  void setTeacherPointer(std::list<Teacher>::iterator);
+
   friend std::ostream &operator <<(std::ostream &os, const Group &group);
 };
 

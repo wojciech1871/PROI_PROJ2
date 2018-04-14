@@ -60,8 +60,8 @@ int Kindergarten::assignTeacher(string name, string surname, string groupName)
   groupIter=findObject<Group,list<Group>::iterator>(&groupsList,groupName);
   if(teacherIter!=NULLTeacher&&groupIter!=NULLGroup)
   {
-    groupIter->teacherPointer=teacherIter;
-    teacherIter->groupName=groupName;
+    groupIter->setTeacherPointer(teacherIter);
+    teacherIter->setGroupName(groupName);
     return 1;
   }
   return 0;
@@ -75,8 +75,8 @@ int Kindergarten::assignChild(string name, string surname, string groupName)
   groupIter=findObject<Group,list<Group>::iterator>(&groupsList,groupName);
   if(childIter!=NULLChild&&groupIter!=NULLGroup)
   {
-    groupIter->ChildrenPointerList.push_back(childIter);
-    childIter->groupName=groupName;
+    groupIter->getChildrenPointerList()->push_back(childIter);
+    childIter->setGroupName(groupName);
     return 1;
   }
   return 0;
@@ -90,11 +90,11 @@ int Kindergarten::removeTeacher(string name, string surname)
   teacherIter=findObject<Teacher,list<Teacher>::iterator>(&teachersList,name,surname);
   if(teacherIter!=NULLTeacher)
   {
-    groupName=teacherIter->groupName;
+    groupName=teacherIter->getGroupName();
     if(groupName!="")
     {
       groupIter=findObject<Group,list<Group>::iterator>(&groupsList,groupName);
-      groupIter->teacherPointer=NULLTeacher;
+      groupIter->getTeacherPointer()=NULLTeacher;
     }
     teachersList.erase(teacherIter);
     return 1;
@@ -111,12 +111,12 @@ int Kindergarten::removeChild(string name, string surname)
   childIter=findObject<Child,list<Child>::iterator>(&childrenList,name,surname);
   if(childIter!=NULLChild)
   {
-    groupName=childIter->groupName;
+    groupName=childIter->getGroupName();
     if(groupName!="")
     {
       groupIter=findObject<Group,list<Group>::iterator>(&groupsList,groupName);
-      childIterIter=findObject<list<Child>::iterator,list<list<Child>::iterator>::iterator>(&(groupIter->ChildrenPointerList),childIter);
-      groupIter->ChildrenPointerList.erase(childIterIter);
+      childIterIter=findObject<list<Child>::iterator,list<list<Child>::iterator>::iterator>(groupIter->getChildrenPointerList(),childIter);
+      groupIter->getChildrenPointerList()->erase(childIterIter);
     }
     childrenList.erase(childIter);
     return 1;
@@ -130,9 +130,9 @@ int Kindergarten::removeGroup(string groupName)
   groupIter=findObject<Group,list<Group>::iterator>(&groupsList,groupName);
   if(groupIter!=NULLGroup)
   {
-    for(auto iter=groupIter->ChildrenPointerList.begin();iter!=groupIter->ChildrenPointerList.end();iter++)
+    for(auto iter=groupIter->getChildrenPointerList()->begin();iter!=groupIter->getChildrenPointerList()->end();iter++)
     {
-      (*iter)->groupName="";
+      (*iter)->getGroupName()="";
     }
     groupsList.erase(groupIter);
     return 1;
@@ -162,12 +162,12 @@ void Kindergarten::show(string groupName)
   }
   cout <<"Group " <<groupName <<" : " <<endl;
   cout <<"Teacher responsible for group: " <<endl;
-  if(groupIter->teacherPointer!=NULLTeacher)
+  if(groupIter->getTeacherPointer()!=NULLTeacher)
   {
-    cout<< *(groupIter->teacherPointer) <<endl;
+    cout<< *(groupIter->getTeacherPointer()) <<endl;
   }
   cout <<"Children in group: " <<endl;
-  for(auto iter=groupIter->ChildrenPointerList.begin();iter!=groupIter->ChildrenPointerList.end();iter++)
+  for(auto iter=groupIter->getChildrenPointerList()->begin();iter!=groupIter->getChildrenPointerList()->end();iter++)
   {
     cout << *(*iter) <<endl;
   }
